@@ -1,8 +1,7 @@
 package HibernateWeb.Controller;
 
 import HibernateWeb.Models.User;
-import HibernateWeb.Service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import HibernateWeb.Service.MyService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,12 +14,15 @@ import java.util.List;
 @Controller
 public class UsersController {
 
-	@Autowired
-	private UserService userService;
+	private MyService userService;
+
+	public UsersController(MyService usersService) {
+		this.userService = usersService;
+	}
 
 	@GetMapping(value = "/")
 	public String printUsersTable(Model model) {
-		List<User> userList = userService.userList();
+		List<User> userList = userService.list();
 		model.addAttribute("users", userList);
 		return "index";
 	}

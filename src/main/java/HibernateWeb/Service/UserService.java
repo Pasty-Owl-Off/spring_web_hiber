@@ -1,38 +1,45 @@
 package HibernateWeb.Service;
 
-import HibernateWeb.DAO.UserDAO;
+import HibernateWeb.DAO.MyDAO;
 import HibernateWeb.Models.User;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
-public class UserService {
+public class UserService implements MyService {
 
-    @Autowired
-    private UserDAO userDAO;
+    private MyDAO userDAO;
 
+    public UserService(MyDAO userDAO) {
+        this.userDAO = userDAO;
+    }
+
+    @Override
     @Transactional
     public void add(User user) {
         userDAO.add(user);
     }
 
+    @Override
     @Transactional(readOnly = true)
-    public List<User> userList() {
-        return userDAO.userList();
+    public List<User> list() {
+        return userDAO.list();
     }
 
+    @Override
     @Transactional(readOnly = true)
     public User find(long id) {
         return userDAO.find(id);
     }
 
+    @Override
     @Transactional
     public void update(User user) {
         userDAO.update(user);
     }
 
+    @Override
     @Transactional
     public void remove(long id) {
         userDAO.remove(id);
